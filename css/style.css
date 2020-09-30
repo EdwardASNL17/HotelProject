@@ -39,15 +39,22 @@ nav
   padding-left: 200px !important;
   justify-content: space-between;
   padding-top:20px;
-  padding-right: 79px!important;
+  padding-right: 79px;
   
 }
 nav .txtlink
 {
-	margin-top:6px;
+	margin-top: 6px;
+	padding-bottom: -5px;
 	color: rgba(0, 0, 0, 0.6);
+	font-size:18px;
+
 }
 nav .txtlink:hover
 {
 	text-decoration: none;
+	color: rgba(0, 0, 0, 0.6);
+	border-bottom: 3px solid #252525;
+
+	
 }
