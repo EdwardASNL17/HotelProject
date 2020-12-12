@@ -63,5 +63,34 @@
                 numRooms = 42
             },
         };
+        int Addid = 0;
+        foreach (var item in hotels)
+        {
+            Addid++;
+        }
+        for (var i = 0; i < 10; i++)
+        {
+            hotels.Add(new Hotel() { id = Addid, name = "testHotel", city = "testCity", rating = 5, numRooms = 22 });
+            Addid++;
+        }
+        
     }
+    public static void AddHotels(List<Hotel> hotels,int count)
+    {
+        int Addid = 0;
+        foreach (var item in hotels)
+        {
+            Addid++;
+        }
+        for(var i = 0;i<count;i++)
+        {
+            hotels.Add(new Hotel(){ id = Addid,name="testHotel",city = "testCity", rating = 5, numRooms=22});
+            Addid++;
+        }
+
+    }
+
+
+
+
 }
