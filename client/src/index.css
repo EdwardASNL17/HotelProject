@@ -1,3 +1,28 @@
 .main{
     padding-top: 50px;
 }
+.modal{
+    display: block;
+    position: fixed;
+    width: 270px;
+    height:160px;
+    left:728px;
+    top: 370px;
+}
+.modal-button{
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    font-size: 24px;
+    margin:0px 10px;
+}
+.modal-label{
+    display: inline-block;
+    width: 80px;
+    padding-left: 10px;
+}
+.modal-value{
+    display: inline-block;
+    width:15px;
+    text-align: center;
+}
