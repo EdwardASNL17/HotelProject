@@ -26,3 +26,8 @@
     width:15px;
     text-align: center;
 }
+.carousel{
+    width:600px;
+    max-height: 340px;
+    background-color: rgb(247, 247, 247);
+}

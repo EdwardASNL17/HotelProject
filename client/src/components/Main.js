@@ -2,44 +2,58 @@ import 'moment/locale/ru';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import React, { useState, useEffect } from 'react';
+import {Redirect} from 'react-router-dom'
 import { Form, Input, Button, Typography, DatePicker } from 'antd';
-import city from '../img/city.png'
+import imgCity from '../img/city.png'
+import Search from './Search'
 
 const { Title, Paragraph } = Typography;
 const {RangePicker} = DatePicker;
 
 const Main = ()=>{
     const [form] = Form.useForm();
+    const [city,setCity]=useState('');
     const [peopleCount,setPeopleCount]= useState(1);
     const [numberCount,setNumberCount]= useState(1);
     const [childrenCount,setChildrenCount]= useState(0);
     const [isVisible,setVisible]= useState(false);
     const [, forceUpdate] = useState();
-
+    const [redirect,setRedirect]=useState(false);
     // To disable submit button at the beginning.
     useEffect(() => {
         forceUpdate({});
     }, []);
-
     const onFinish = values => {
-        console.log('Finish:', values);
+        return setRedirect(true)
+        
     };
     const disabledDate = (current) => {
         // Can not select days before today and today
-        return current <= (moment().endOf('day'))+1;
+        return current <= (moment().startOf('day'))+1;
     };
+    if(redirect){
+        return(
+            <Redirect
+                to={{
+                    pathname: "/search",
+                    state: { peopleCount, numberCount, childrenCount }
+                }}
+            />
+        )
+    }
+    
     return(
         <div className='main'>
             <Title level={3} style={{textAlign:'center'}}>Найдите спецпредложения для отелей, домов и других вариантов</Title>
             <Paragraph style={{textAlign:'center'}}>От уютных загородных домов до стильных городских квартир</Paragraph>
-            <Form form={form} name="horizontal_login" layout="inline" onFinish={onFinish} style={{margin:'7% 13%'}}>
+            <Form form={form} name="horizontal_login" layout="inline" onFinish={onFinish} style={{margin:'7% 12%'}}>
             <Form.Item name="city"
                 rules={[{ required: true, message: 'Please input city!' }]}
             >
-                <Input prefix={<img src={city}/>} placeholder="Город" />
+                <Input onChange={(e)=>setCity(e)} prefix={<img src={imgCity}/>} placeholder="Город" />
             </Form.Item>
             <Form.Item>
-                <RangePicker disabledDate={disabledDate} locale={locale} style={{height:'34px'}}/>
+                <RangePicker format='DD/MM/YY' disabledDate={disabledDate} locale={locale} style={{height:'34px'}}/>
             </Form.Item>
             <Form.Item>
                 <Button style={{height:'34px',width:'270px'}} onClick={()=>isVisible?setVisible(false):setVisible(true)}>

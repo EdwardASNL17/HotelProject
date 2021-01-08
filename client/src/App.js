@@ -6,6 +6,7 @@ import Main from './components/Main'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import Search from './components/Search';
+import HotelCard from './components/HotelCard'
 
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -30,7 +31,7 @@ function App() {
                 </SubMenu>
             </Menu>
           </Header>
-          <Content style={{ padding: '0 50px', height: '515px'}}>
+          <Content style={{ padding: '0 50px', height: '515px', overflowY:'scroll'}}>
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>Home</Breadcrumb.Item>
             </Breadcrumb>
@@ -38,6 +39,7 @@ function App() {
               <Route exact path='/signin' component={SignIn}/>
               <Route exact path='/signup' component={SignUp}/>
               <Route exact path='/search' component={Search}/>
+              <Route exact path='/hotel/:id' component={HotelCard}/>
               <Route path='/' component={Main}/>
             </Switch>
           </Content>
