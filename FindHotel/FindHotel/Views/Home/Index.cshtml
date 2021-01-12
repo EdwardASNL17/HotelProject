@@ -1,0 +1,37 @@
+﻿@model IEnumerable<FindHotel.Models.Hotel>
+@{
+    //ViewData["Title"] = "Список смартфонов";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Отели</title>
+</head>
+<body>
+    <h3>Отели</h3>
+    <table>
+        <tr>
+            <td>id</td>
+            <td>Название</td>
+            <td>Город</td>
+            <td>Рейтинг</td>
+            <td>Уровень сервиса</td>
+            <td>Количество комнат</td>
+        </tr>
+        @foreach (var hotel in Model)
+        {
+            <tr>
+                <td>@hotel.Id</td>
+                <td>@hotel.Name</td>
+                <td>@hotel.City</td>
+                <td>@hotel.Rating</td>
+                <td>@hotel.ServiceLevel</td>
+                <td>@hotel.NumRooms</td>
+
+            </tr>
+        }
+    </table>
+</body>
+</html>
