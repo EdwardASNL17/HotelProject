@@ -11,15 +11,20 @@ namespace FindHotel.Controllers
 {
     public class AccountController : Controller
     {
+        FHContext db;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, FHContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            db = context;
         }
-
+        public IActionResult PersonalAccount()
+        {
+            return View();
+        }
         [HttpGet]
         public IActionResult Register()
         {
@@ -38,7 +43,7 @@ namespace FindHotel.Controllers
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("PersonalAccount", "Account");
                 }
                 else
                 {
@@ -52,4 +57,5 @@ namespace FindHotel.Controllers
 
         }
         }
+       
 }
