@@ -20,7 +20,19 @@ namespace FindHotel.Controllers
         {
             return View(db.Hotels.ToList());
         }
-        
+        public IActionResult AddHotel()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddHotel(Hotel hotel)
+        {
+            db.Hotels.Add(hotel);
+            // сохраняем в бд все изменения
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
 
     }
 }

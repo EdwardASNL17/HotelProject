@@ -20,7 +20,7 @@ namespace FindHotel
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<FHContext>();
-                AddDB.AddData(context);
+               
                 try
                 {
                     
