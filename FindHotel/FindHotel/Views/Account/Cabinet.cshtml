@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<FindHotel.Models.User>
 @if (User.Identity.IsAuthenticated)
 {
+    
     User OurUser = new User();
     foreach(var user in Model)
     {

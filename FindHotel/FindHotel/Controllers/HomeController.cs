@@ -36,9 +36,45 @@ namespace FindHotel.Controllers
 
             return View(model.SearchHotels);
         }
-        public IActionResult Index(SearchModel model)
+        public IActionResult Index()
         {
              return View(db.Hotels.ToList());
+        }
+        public IActionResult Hotels()
+        {
+            return View(db.Hotels.ToList());
+        }
+        [HttpGet]
+        public IActionResult Hotels(int? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            /*foreach(var hot in db.Hotels)
+            {
+                if(hot.Id == id)
+                {
+                    ViewBag.HotelName = hot.Id;
+                    ViewBag.HotelRating = hot.Name;
+                    ViewBag.HotelServiceLevel = hot.Rating;
+                    ViewBag.HotelNumRooms = hot.ServiceLevel;
+                    break;
+                }
+            }
+            */
+            var hotel = db.Hotels.FirstOrDefault(x => x.Id.Equals(id));
+            if (hotel != null)
+            {
+                ViewBag.HotelName = hotel.Name;
+                ViewBag.HotelRating = hotel.Rating;
+                ViewBag.HotelServiceLevel = hotel.ServiceLevel;
+                ViewBag.HotelNumRooms = hotel.NumRooms;
+               
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+
         }
         public IActionResult AddHotel()
         {

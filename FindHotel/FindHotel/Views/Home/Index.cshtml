@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<FindHotel.Models.Hotel>
-
 <!DOCTYPE html>
 
 <html>
@@ -10,23 +9,15 @@
     <h3>Отели</h3>
     <table>
         <tr>
-            <td>id</td>
             <td>Название</td>
             <td>Город</td>
-            <td>Рейтинг</td>
-            <td>Уровень сервиса</td>
-            <td>Количество комнат</td>
         </tr>
         @foreach (var hotel in Model)
         {
             <tr>
-                <td>@hotel.Id</td>
                 <td>@hotel.Name</td>
                 <td>@hotel.City</td>
-                <td>@hotel.Rating</td>
-                <td>@hotel.ServiceLevel</td>
-                <td>@hotel.NumRooms</td>
-
+                <td><a href="~/Home/Hotels/@hotel.Id">Купить</a></td>
             </tr>
         }
     </table>
