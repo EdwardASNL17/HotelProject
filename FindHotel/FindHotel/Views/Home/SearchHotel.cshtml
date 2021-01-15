@@ -1,0 +1,15 @@
+﻿
+@model FindHotel.ViewModels.SearchModel
+
+<h2>Вход в приложение</h2>
+<form method="post" asp-controller="Home" asp-action="SearchHotel">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="City"></label><br />
+        <input asp-for="City" />
+        <span asp-validation-for="City"></span>
+    </div>
+    <div>
+        <input type="submit" value="Найти" />
+    </div>
+</form>

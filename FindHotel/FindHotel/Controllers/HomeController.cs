@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FindHotel.ViewModels;
 
 namespace FindHotel.Controllers
 {
@@ -16,9 +17,28 @@ namespace FindHotel.Controllers
         {
             db = context;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult SearchHotel()
         {
-            return View(db.Hotels.ToList());
+            return View();
+        }
+        [HttpPost]
+        public  IActionResult SearchHotel(SearchModel model)
+        {
+            foreach (var hotel in db.Hotels)
+            {
+                if (hotel.City == "Night-City")
+                {
+                    model.SearchHotels.Add(hotel);
+
+                }
+            }
+
+            return View(model.SearchHotels);
+        }
+        public IActionResult Index(SearchModel model)
+        {
+             return View(db.Hotels.ToList());
         }
         public IActionResult AddHotel()
         {
