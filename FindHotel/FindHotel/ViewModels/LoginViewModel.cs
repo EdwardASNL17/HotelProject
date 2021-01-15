@@ -9,8 +9,8 @@ namespace FindHotel.ViewModels
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Логин")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -19,6 +19,8 @@ namespace FindHotel.ViewModels
 
         [Display(Name = "Запомнить?")]
         public bool RememberMe { get; set; }
+
+
 
         public string ReturnUrl { get; set; }
     }

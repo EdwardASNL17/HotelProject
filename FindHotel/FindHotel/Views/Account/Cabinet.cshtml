@@ -1,0 +1,34 @@
+﻿@model IEnumerable<FindHotel.Models.User>
+@if (User.Identity.IsAuthenticated)
+{
+    User OurUser = new User();
+    foreach(var user in Model)
+    {
+
+        if(user.UserName == User.Identity.Name)
+        {
+            OurUser.Name = user.Name;
+            OurUser.Surname = user.Surname;
+            OurUser.Email = user.Email;
+            OurUser.BirthDate = user.BirthDate;
+
+        }
+    }
+    <h2>Личный кабинет</h2>
+    <p>Добро пожаловать, @User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Выход" />
+    </form>
+    <div>
+        <p>Почта:@OurUser.Email </p>
+        <p>Фамилия:@OurUser.Surname </p>
+        <p>Имя:@OurUser.Name</p>
+        <p>Дата рождения:@OurUser.BirthDate </p>
+    </div>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login">Вход</a>
+    <a asp-controller="Account" asp-action="Register">Регистрация</a>
+}

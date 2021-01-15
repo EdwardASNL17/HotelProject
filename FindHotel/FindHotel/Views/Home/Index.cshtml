@@ -1,24 +1,4 @@
 ﻿@model IEnumerable<FindHotel.Models.Hotel>
-@if (User.Identity.IsAuthenticated)
-{
-    <h2>Личный кабинет</h2>
-    <p>Добро пожаловать, @User.Identity.Name</p>
-
-    <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Выход" />
-    </form>
-    <div>
-        <p>Почта: </p>
-        <p>Фамилия: </p>
-        <p>Имя: </p>
-        <p>Дата рождения: </p>
-    </div>
-}
-else
-{
-    <a asp-controller="Account" asp-action="Login">Вход</a>
-    <a asp-controller="Account" asp-action="Register">Регистрация</a>
-}
 
 <!DOCTYPE html>
 
