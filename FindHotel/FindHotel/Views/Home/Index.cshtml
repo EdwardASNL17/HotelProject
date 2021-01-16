@@ -14,11 +14,12 @@
         </tr>
         @foreach (var hotel in Model)
         {
-            <tr>
-                <td>@hotel.Name</td>
-                <td>@hotel.City</td>
-                <td><a href="~/Home/Hotels/@hotel.Id">Купить</a></td>
-            </tr>
+    <tr>
+        <td>@hotel.Name</td>
+        <td>@hotel.City</td>
+        <td><a href="~/Home/Hotels/@hotel.HotelId">Купить</a></td>
+        <td><a href="~/Home/AddRoom/@hotel.HotelId">Добавить номер</a></td>
+    </tr>
         }
     </table>
     <a href="~/Home/AddHotel">Добавить отель</a>

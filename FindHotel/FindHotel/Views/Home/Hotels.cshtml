@@ -1,4 +1,4 @@
-﻿@model FindHotel.Models.Hotel
+﻿@model IEnumerable<FindHotel.Models.Room>
 <!DOCTYPE html>
 
 <html>
@@ -11,6 +11,24 @@
     <p>Рейтинг отеля: @ViewBag.HotelRating</p>
     <p>Уровень сервиса: @ViewBag.HotelServiceLevel</p>
     <p>Количество номеров:@ViewBag.HotelNumRooms</p>
-
+    <table>
+        <tr>
+            <td>Класс номера: </td>
+            <td>Вместимость номера: </td>
+            <td>Цена: </td>
+        </tr>
+        @foreach (var room in Model)
+        {
+            var check = room.HotelId;
+            if(check == ViewBag.HotelId)
+            { 
+            <tr>
+                <td>@room.NumClass</td>
+                <td>@room.Capacity</td>
+                <td>@room.Price</td>
+            </tr>
+            }
+        }
+    </table>
 </body>
 </html>
