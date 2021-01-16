@@ -6,12 +6,10 @@
 <body>
     <div>
         <h3>Форма добавления номера</h3>
+        
         <form method="post">
+            <input  value="@ViewBag.HotelId" name="HotelId" />
             <table>
-                <tr>
-                    <td>Название отеля:</td>
-                    <td><input type="text" name="Hotel" /> </td>
-                </tr>
                 <tr>
                     <td>Классификация номера: </td>
                     <td><input type="text" name="NumClass" /></td>

@@ -19,8 +19,8 @@
         </tr>
         @foreach (var room in Model)
         {
-            var check = room.Hotel;
-            if(check == ViewBag.HotelName)
+            var check = room.HotelId;
+            if(check == ViewBag.HotelId)
             { 
             <tr>
                 <td>@room.NumClass</td>
