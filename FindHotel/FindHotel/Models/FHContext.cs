@@ -10,6 +10,7 @@ namespace FindHotel.Models
     public class FHContext:IdentityDbContext<User>
     {
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
         public FHContext(DbContextOptions<FHContext> options)
 

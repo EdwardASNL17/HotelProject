@@ -60,20 +60,21 @@ namespace FindHotel.Controllers
                 }
             }
             */
+            
             var hotel = db.Hotels.FirstOrDefault(x => x.Id.Equals(id));
+            var room = db.Rooms.FirstOrDefault(x => x.Hotel.Equals(hotel.Name));
             if (hotel != null)
             {
                 ViewBag.HotelName = hotel.Name;
                 ViewBag.HotelRating = hotel.Rating;
                 ViewBag.HotelServiceLevel = hotel.ServiceLevel;
-                ViewBag.HotelNumRooms = hotel.NumRooms;
-               
+                ViewBag.HotelNumRooms = hotel.NumRooms;  
             }
             else
             {
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(db.Rooms.ToList());
 
         }
         public IActionResult AddHotel()
@@ -90,5 +91,19 @@ namespace FindHotel.Controllers
 
         }
 
+        public IActionResult AddRoom()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddRoom(Room room)
+        {
+
+            db.Rooms.Add(room);
+            // сохраняем в бд все изменения
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
     }
 }
