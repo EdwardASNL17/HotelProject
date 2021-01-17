@@ -12,6 +12,7 @@ namespace FindHotel.Models
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
         public FHContext(DbContextOptions<FHContext> options)
 
             : base(options)

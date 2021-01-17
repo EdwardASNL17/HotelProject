@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Оформление заказа</title>
+</head>
+<body>
+    <div>
+        <h3>Оформить заказ</h3>
+        <form method="post">
+            <input value="@ViewBag.HotelId" name="HotelId" />
+            <input value="@ViewBag.RoomId" name="HotelId" />
+            <table>
+                <tr>
+                    <td>Классификация номера: </td>
+                    <td><input type="text" name="NumClass" /></td>
+                </tr>
+                <tr>
+                    <td>Вместимость: </td>
+                    <td><input type="text" name="Capacity" /></td>
+                </tr>
+                <tr>
+                    <td>Цена:</td>
+                    <td><input type="text" name="Price" /></td>
+                </tr>
+                <tr><td><input type="submit" value="Отправить" /> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
