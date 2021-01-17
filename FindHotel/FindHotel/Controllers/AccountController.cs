@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using System.Text.Json;
+using System.IO;
 
 namespace FindHotel.Controllers
 {
@@ -28,44 +29,55 @@ namespace FindHotel.Controllers
         {
             return View(db.Users.ToList());
         }
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Register()
         {
             return View();
         }
-
+        */
+      
         [HttpPost]
-        public async Task<IActionResult> Register(string json)
+        public async Task<JsonResult> Register()
         {
-            //if (ModelState.IsValid)
-            //{
-                RegisterViewModel model = JsonSerializer.Deserialize<RegisterViewModel>(json);
-                User user = new User { Email = model.Email, UserName = model.UserName, Surname = model.Surname, Name = model.Name, BirthDate = model.BirthDate};
-                //string json = JsonSerializer.Serialize<RegisterViewModel>(model);
-                //User user = JsonSerializer.Deserialize<User>(json);
-                
-                // добавляем пользователя
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    // установка куки
-                    await _signInManager.SignInAsync(user, false);
-                    return Json(_signInManager.UserManager.GetClaimsAsync(user));
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var body = reader.ReadToEndAsync();
+               
+
+                // Do something
+
                     
-                
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
+                    RegisterViewModel model = JsonSerializer.Deserialize<RegisterViewModel>(body.Result);
+                    User user = new User { Email = model.Email, UserName = model.UserName, Surname = model.Surname, Name = model.Name, BirthDate = model.BirthDate};
+ 
+
+                    // добавляем пользователя
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        // установка куки
+                        await _signInManager.SignInAsync(user, false);
+                        var regUser = db.Users.FirstOrDefault(x => x.Id.Equals(user.Id));
+                        return Json(regUser.Id);
+                    //return Json("success");
+
+
                     }
-                    return Json("Error");
-                }
-            //}
-           
-           
-          
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return Json("Error");
+                    }
+                
+                        
+                    
+            }
+
+
+
         }
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
