@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 
 namespace FindHotel.Controllers
 {
@@ -33,18 +35,24 @@ namespace FindHotel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(string json)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
+                RegisterViewModel model = JsonSerializer.Deserialize<RegisterViewModel>(json);
                 User user = new User { Email = model.Email, UserName = model.UserName, Surname = model.Surname, Name = model.Name, BirthDate = model.BirthDate};
+                //string json = JsonSerializer.Serialize<RegisterViewModel>(model);
+                //User user = JsonSerializer.Deserialize<User>(json);
+                
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return Json(_signInManager.UserManager.GetClaimsAsync(user));
+                    
+                
                 }
                 else
                 {
@@ -52,9 +60,12 @@ namespace FindHotel.Controllers
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
+                    return Json("Error");
                 }
-            }
-            return View(model);
+            //}
+           
+           
+          
         }
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
