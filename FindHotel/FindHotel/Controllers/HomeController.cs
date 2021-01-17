@@ -82,6 +82,7 @@ namespace FindHotel.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddHotel(Hotel hotel)
         {
@@ -107,6 +108,27 @@ namespace FindHotel.Controllers
         public IActionResult AddRoom(Room room)
         {
             db.Rooms.Add(room);
+            // сохраняем в бд все изменения
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+        public IActionResult AddOrder()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult AddOrder(int? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            ViewBag.HotelId = id;
+            ViewBag.RoomId = id;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddOrder(Order order)
+        {
+            db.Orders.Add(order);
             // сохраняем в бд все изменения
             db.SaveChanges();
             return RedirectToAction("Index");
