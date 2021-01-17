@@ -27,10 +27,9 @@ namespace FindHotel.Controllers
         {
             foreach (var hotel in db.Hotels)
             {
-                if (hotel.City == "Night-City")
+                if (hotel.City == model.City)
                 {
                     model.SearchHotels.Add(hotel);
-
                 }
             }
 
