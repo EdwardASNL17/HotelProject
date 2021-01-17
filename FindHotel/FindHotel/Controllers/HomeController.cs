@@ -118,16 +118,18 @@ namespace FindHotel.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult AddOrder(int? id)
+        public IActionResult AddOrder(int? id, int? sid)
         {
-            if (id == null) return RedirectToAction("Index");
+            if (id == null && sid == null) return RedirectToAction("Index");
             ViewBag.HotelId = id;
-            ViewBag.RoomId = id;
+            ViewBag.RoomId = sid;
             return View();
         }
         [HttpPost]
         public IActionResult AddOrder(Order order)
         {
+            var user = db.Users.FirstOrDefault(x => x.NormalizedUserName.Equals(User.Identity.Name));
+            order.UserId = user.Id;
             db.Orders.Add(order);
             // сохраняем в бд все изменения
             db.SaveChanges();

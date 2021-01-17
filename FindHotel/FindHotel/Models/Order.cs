@@ -8,7 +8,7 @@ namespace FindHotel.Models
     public class Order
     {
         public int OrderId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int HotelId { get; set; }
         public int RoomId { get; set; }
         public DateTime DateTimeIn { get; set; }
