@@ -26,7 +26,7 @@ namespace FindHotel.ViewModels
 
         [Required]
         [Display(Name = "Дата Рождения")]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

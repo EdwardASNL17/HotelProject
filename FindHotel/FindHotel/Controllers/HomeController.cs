@@ -25,15 +25,19 @@ namespace FindHotel.Controllers
         [HttpPost]
         public  IActionResult SearchHotel(SearchModel model)
         {
+            Hotel[] search = new Hotel[100];
+            int i = 0;
             foreach (var hotel in db.Hotels)
             {
                 if (hotel.City == model.City)
                 {
+                    search[i] = hotel;
+                    i++;
                     model.SearchHotels.Add(hotel);
                 }
             }
 
-            return View(model.SearchHotels);
+            return Json(search);
         }
         public IActionResult Index()
         {
@@ -41,6 +45,7 @@ namespace FindHotel.Controllers
         }
         public IActionResult Hotels()
         {
+
             return View(db.Hotels.ToList());
         }
         [HttpGet]
@@ -68,13 +73,14 @@ namespace FindHotel.Controllers
                 ViewBag.HotelName = hotel.Name;
                 ViewBag.HotelRating = hotel.Rating;
                 ViewBag.HotelServiceLevel = hotel.ServiceLevel;
-                ViewBag.HotelNumRooms = hotel.NumRooms;  
+                ViewBag.HotelNumRooms = hotel.NumRooms;
             }
             else
             {
                 return RedirectToAction("Index");
             }
             return View(db.Rooms.ToList());
+            //return Json(hotel);
 
         }
         public IActionResult AddHotel()
@@ -88,7 +94,7 @@ namespace FindHotel.Controllers
             db.Hotels.Add(hotel);
             // сохраняем в бд все изменения
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json(hotel);
 
         }
 
@@ -109,7 +115,7 @@ namespace FindHotel.Controllers
             db.Rooms.Add(room);
             // сохраняем в бд все изменения
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json(room);
 
         }
         public IActionResult AddOrder()
@@ -132,7 +138,7 @@ namespace FindHotel.Controllers
             db.Orders.Add(order);
             // сохраняем в бд все изменения
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json(order);
 
         }
     }
