@@ -21,11 +21,11 @@ const SignUp = () => {
     const user={
       Name:name,
       Surname:surName,
-      Login:login,
-      Birthday:birthday,
+      UserName:login,
+      BirthDate:birthday,
       Email:email,
       Password:password,
-      ConfirmPassword:password
+      PasswordConfirm:password
     }
     const response= await fetch('/Account/Register',{
       method:'POST',
