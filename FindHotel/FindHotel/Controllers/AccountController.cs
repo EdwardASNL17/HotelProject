@@ -86,8 +86,7 @@ namespace FindHotel.Controllers
                 var body = reader.ReadToEndAsync();
 
                 LoginViewModel model = JsonSerializer.Deserialize<LoginViewModel>(body.Result);
-                //if (ModelState.IsValid)
-                //{
+                
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
                 if (result.Succeeded)
                 {
