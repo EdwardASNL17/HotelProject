@@ -1,4 +1,6 @@
 import { Form, Input, Button, Checkbox } from 'antd';
+import { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const layout = {
   labelCol: { span: 9 },
@@ -9,8 +11,26 @@ const tailLayout = {
 };
 
 const SignIn = () => {
-  const onFinish = values => {
-    console.log('Success:', values);
+  const [login,setLogin]=useState('');
+  const [password,setPassword]=useState('');
+
+  const onFinish = async() => {
+    const user={
+      "UserName":login,
+      "password":password
+    }
+    const response = await fetch('/Account/Login',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+    if(response.status=='200'){
+      return <Redirect to='/search'/>
+    }else{
+      console.log('bad request')
+    }
   };
 
   const onFinishFailed = errorInfo => {
@@ -31,7 +51,7 @@ const SignIn = () => {
         name="username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input />
+        <Input onChange={(e)=>setLogin(e.target.value)}/>
       </Form.Item>
 
       <Form.Item
@@ -39,7 +59,7 @@ const SignIn = () => {
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
-        <Input.Password />
+        <Input.Password onChange={(e)=>setPassword(e.target.value)}/>
       </Form.Item>
 
       <Form.Item {...tailLayout}>

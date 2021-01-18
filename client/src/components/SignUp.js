@@ -1,5 +1,6 @@
 import { Form, Input, Button, DatePicker } from 'antd';
 import {useState} from 'react'
+import { Redirect } from 'react-router-dom';
 
 const layout = {
   labelCol: { span: 9 },
@@ -34,17 +35,22 @@ const SignUp = () => {
       },
       body: JSON.stringify(user)
     })
-    console.log(response)
+    if(response.status=='200'){
+      return <Redirect to='/search'/>
+    }
+    else{
+      console.log('bad request')
+    }
   };
 
   const onFinishFailed = errorInfo => {
-    
+    console.log(errorInfo)
   };
 
   return (
     <Form
       {...layout}
-      style={{marginTop:'150px'}}
+      style={{marginTop:'100px'}}
       name="basic"
       initialValues={{ remember: true }}
       onFinish={onFinish}
@@ -54,14 +60,14 @@ const SignUp = () => {
       <Form.Item
         label="Имя"
         name="name"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Введите имя!' }]}
       >
         <Input onChange={(e)=>setName(e.target.value)}/>
       </Form.Item>
       <Form.Item
         label="Фамилия"
         name="surname"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Введите фамилию!' }]}
       >
         <Input onChange={(e)=>setSurName(e.target.value)}/>
       </Form.Item>
@@ -74,14 +80,14 @@ const SignUp = () => {
       <Form.Item
         label="Логин"
         name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Введите логин!' }]}
       >
         <Input onChange={(e)=>setLogin(e.target.value)}/>
       </Form.Item>
       <Form.Item
         label="Пароль"
         name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        rules={[{ required: true, message: 'Введите пароль!' }]}
       >
         <Input.Password onChange={(e)=>setPassword(e.target.value)}/>
       </Form.Item>
