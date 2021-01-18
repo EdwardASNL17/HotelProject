@@ -25,18 +25,23 @@ namespace FindHotel.Controllers
         [HttpPost]
         public  IActionResult SearchHotel(SearchModel model)
         {
-            Hotel[] search = new Hotel[100];
+            
+            Hotel[] test = new Hotel[10];
             int i = 0;
             foreach (var hotel in db.Hotels)
             {
                 if (hotel.City == model.City)
                 {
-                    search[i] = hotel;
+                    test[i] = hotel;
                     i++;
                     model.SearchHotels.Add(hotel);
                 }
             }
-
+            Hotel[] search = new Hotel[i];
+            for(var j = 0; j < i; j++)
+            {
+                search[j] = test[j];
+            }
             return Json(search);
         }
         public IActionResult Index()
