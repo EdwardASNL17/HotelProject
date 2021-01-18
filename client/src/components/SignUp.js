@@ -36,6 +36,7 @@ const SignUp = () => {
       body: JSON.stringify(user)
     })
     if(response.status=='200'){
+      
       setRedirect(true)
     }
     else{

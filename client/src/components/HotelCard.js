@@ -4,26 +4,25 @@ import { useEffect, useState } from "react";
 
 const {Title}=Typography
 
-const HotelCard=(props)=>{
+const HotelCard=()=>{
     const {id}=useParams();
     const [arr,setArr]=useState([])
     const [hotel,setHotel]=useState({});
     const [rooms,setRooms]=useState([]); 
     const [redirect,setRedirect]=useState(false)
-    useEffect(async()=>{
+    /*useEffect(async()=>{
         const hotel = await fetch(`/Home/Hotels/${id}`);
         const rooms = await fetch(`/Home/Rooms/${id}`);
         setHotel(hotel.body);
         setRooms(rooms.body);
     },[])
     const addOrder = async(roomId)=>{
-        const body= props.location.state;
         const response = await (`/Home/AddOrder/${id}/${roomId}`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify({})
         })
         if(response.status=='200'){
             console.log(response.body)
@@ -34,7 +33,7 @@ const HotelCard=(props)=>{
     }
     if(redirect){
         return <Redirect to='/'/>
-    }
+    }*/
     return(
         <div>
             <Title level={2}>{hotel.name}</Title>
@@ -46,7 +45,7 @@ const HotelCard=(props)=>{
                     })
                 }
             </Carousel>
-            {rooms.map(a=>{
+            {/*rooms.map(a=>{
                 return(
                     <div className="site-card-border-less-wrapper">
                         <Card title="Card title" key={a.id} style={{ width: 300 }}>
@@ -57,7 +56,7 @@ const HotelCard=(props)=>{
                         </Card>
                     </div>
                 )
-            })}
+            })*/}
         </div>
     )
 }

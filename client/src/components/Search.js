@@ -1,38 +1,39 @@
 import { Card, Button, Rate } from 'antd';
 import React, {useEffect, useState} from 'react'
-import {Redirect} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 const { Meta } = Card;
 
-const Search =(props)=>{
+const Search =()=>{
+
   const [arr,setArr]=useState([]);
   const [redirect,setRedirect]=useState(false);
   const [id,setId]=useState('');
+  const {city}=useParams()
   let obj={}
   const url='https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg'
-  useEffect( async ()=>{
-    
-    obj = props.location.state
-    const {city}=props.location.state
-    const hotels=await fetch('/Hotels',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify({"City":city})
-    })
-    setArr(hotels)
-    /*setArr([{id:1,img:'https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg',name:'Хаятт Ридженси Сочи',stars:4,cost:36000,days:4},
-                {id:2,img:'https://s01.cdn-pegast.net/get/25/75/1a/8473b85ff7c362403ba2965bcc8c1f1ca60a6ef277262a49d77d588d43/5c811e318a525.jpg',name:'Хаятт Ридженси Сочи',stars:4,cost:36000,days:4},
-                {id:3,img:'https://s01.cdn-pegast.net/get/25/75/1a/8473b85ff7c362403ba2965bcc8c1f1ca60a6ef277262a49d77d588d43/5c811e318a525.jpg',name:'Хаятт Ридженси Сочи',stars:4,cost:36000,days:4}])
-    */
-  },[])
-  const [img,setImg]=useState('')
-  if(redirect){
+  const refetch= async()=>{
+      const hotels=await fetch('/Home/SearchHotel',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({"City":city})
+      })
+      console.log(hotels.data)
+      setArr(hotels.body)
+  }
+  useEffect(()=>refetch,[arr])
+  /*if(redirect){
     return <Redirect to={{pathname: `/Hotels/${id}`, state: obj}}/>
+  }*/
+  function onclickButton(id){
+    setId(id);
+    setRedirect(true)
   }
   return(
-    <div style={{margin:100}}>
+    <Button onClick={refetch}>get data</Button>
+    /*<div style={{margin:100}}>
       {arr.map(a=>{
         return(
           <Card
@@ -43,14 +44,11 @@ const Search =(props)=>{
           >
             <Meta title={a.name}/>
             <Rate disabled defaultValue={a.rating} style={{margin:'10px 0'}}/>
-            <Button type='primary' style={{width:'190px'}} onClick={()=>{
-              setId(a.id);
-              setRedirect(true)
-            }}>Подробнее</Button>
-        </Card>
+            <Button type='primary' style={{width:'190px'}} onClick={onclickButton(a.id)}>Подробнее</Button>
+          </Card>
         )
       })}
-    </div>
+    </div>*/
   );
 }
 

@@ -23,7 +23,7 @@ function App() {
                 </Menu.Item>
                 <SubMenu style={{marginLeft: '1020px'}} key="2" icon={<img src={profilePhoto}/>} title="">
                   <Menu.Item key="Submenu1">
-                    <Link to='/signin'>Войти</Link>
+                    <Link to='/Account/Login'>Войти</Link>
                   </Menu.Item>
                   <Menu.Item key="Submenu2">
                     <Link to='/Account/Register'>Регистрация</Link>
@@ -36,10 +36,10 @@ function App() {
                 <Breadcrumb.Item>Home</Breadcrumb.Item>
             </Breadcrumb>
             <Switch>
-              <Route exact path='/signin' component={SignIn}/>
-              <Route exact path='/Account/Register' component={SignUp}/>
-              <Route exact path='/Hotels' component={Search}/>
-              <Route exact path='/hotel/:id' component={HotelCard}/>
+              <Route exact path='/Home/Account/Login' component={SignIn}/>
+              <Route exact path='/Home/Account/Register' component={SignUp}/>
+              <Route exact path='/Home/SearchHotel/:city' component={Search}/>
+              <Route exact path='/Home/Hotel/:id' component={HotelCard}/>
               <Route path='/' component={Main}/>
             </Switch>
           </Content>
