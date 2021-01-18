@@ -11,8 +11,8 @@ namespace FindHotel.Models
         public string UserId { get; set; }
         public int HotelId { get; set; }
         public int RoomId { get; set; }
-        public DateTime DateTimeIn { get; set; }
-        public DateTime DateTimeOut{ get; set; }
+        public string DateTimeIn { get; set; }
+        public string DateTimeOut{ get; set; }
 
 
     }

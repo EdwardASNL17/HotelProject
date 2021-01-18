@@ -19,16 +19,39 @@ namespace FindHotel.Controllers
         {
             db = context;
         }
-        [HttpGet]
+       /* [HttpGet]
         public IActionResult SearchHotel()
         {
             return View();
         }
+       */
         [HttpPost]
-        public  IActionResult SearchHotel(SearchModel model)
+        public  JsonResult SearchHotel()
         {
-            
-            Hotel[] test = new Hotel[10];
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var body = reader.ReadToEndAsync();
+                SearchModel model = JsonSerializer.Deserialize<SearchModel>(body.Result);
+                Hotel[] test = new Hotel[10];
+                int i = 0;
+                foreach (var hotel in db.Hotels)
+                {
+                    if (hotel.City == model.City)
+                    {
+                        test[i] = hotel;
+                        i++;
+                        model.SearchHotels.Add(hotel);
+                    }
+                }
+                Hotel[] search = new Hotel[i];
+                for (var j = 0; j < i; j++)
+                {
+                    search[j] = test[j];
+                }
+                return Json(search);
+            }
+
+            /*Hotel[] test = new Hotel[10];
             int i = 0;
             foreach (var hotel in db.Hotels)
             {
@@ -45,6 +68,7 @@ namespace FindHotel.Controllers
                 search[j] = test[j];
             }
             return Json(search);
+            */
         }
         public IActionResult Index()
         {
@@ -105,10 +129,11 @@ namespace FindHotel.Controllers
             }
         }
 
-        public IActionResult AddRoom()
+        /*public IActionResult AddRoom()
         {
             return View();
         }
+        */
         [HttpGet]
         public IActionResult AddRoom(int? id)
         {
@@ -117,36 +142,57 @@ namespace FindHotel.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AddRoom(Room room)
+        public JsonResult AddRoom()
         {
-            db.Rooms.Add(room);
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var body = reader.ReadToEndAsync();
+                Room room = JsonSerializer.Deserialize<Room>(body.Result);
+                db.Rooms.Add(room);
+                // сохраняем в бд все изменения
+                db.SaveChanges();
+                return Json(room);
+            }
+            /*db.Rooms.Add(room);
             // сохраняем в бд все изменения
             db.SaveChanges();
             return Json(room);
-
+            */
         }
-        public IActionResult AddOrder()
-        {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult AddOrder(int? id, int? sid)
-        {
-            if (id == null && sid == null) return RedirectToAction("Index");
-            ViewBag.HotelId = id;
-            ViewBag.RoomId = sid;
-            return View();
-        }
+        /* public IActionResult AddOrder()
+         {
+             return View();
+         }
+         [HttpGet]
+         public IActionResult AddOrder(int? id, int? sid)
+         {
+             if (id == null && sid == null) return RedirectToAction("Index");
+             ViewBag.HotelId = id;
+             ViewBag.RoomId = sid;
+             return View();
+         }
+         */
         [HttpPost]
-        public IActionResult AddOrder(Order order)
+        public JsonResult AddOrder()
         {
-            var user = db.Users.FirstOrDefault(x => x.NormalizedUserName.Equals(User.Identity.Name));
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var body = reader.ReadToEndAsync();
+                Order order = JsonSerializer.Deserialize<Order>(body.Result);
+                var userHotel = db.Users.FirstOrDefault(x => x.NormalizedUserName.Equals(User.Identity.Name));
+                order.UserId = userHotel.Id;
+                db.Orders.Add(order);
+                // сохраняем в бд все изменения
+                db.SaveChanges();
+                return Json(order);
+            }
+           /* var user = db.Users.FirstOrDefault(x => x.NormalizedUserName.Equals(User.Identity.Name));
             order.UserId = user.Id;
             db.Orders.Add(order);
             // сохраняем в бд все изменения
             db.SaveChanges();
             return Json(order);
-
+           */
         }
     }
 }
