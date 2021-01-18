@@ -16,16 +16,30 @@ const Main = ()=>{
     const [peopleCount,setPeopleCount]= useState(1);
     const [numberCount,setNumberCount]= useState(1);
     const [childrenCount,setChildrenCount]= useState(0);
+    const [dates, setDates] = useState([]);
+    const [value, setValue] = useState();
     const [isVisible,setVisible]= useState(false);
     const [, forceUpdate] = useState();
     const [redirect,setRedirect]=useState(false);
+    const [redirectData,setRedirectData]=useState({})
+
     // To disable submit button at the beginning.
     useEffect(() => {
         forceUpdate({});
     }, []);
-    const onFinish = values => {
-        return setRedirect(true)
-        
+    const onFinish = () => {
+        const DateTimeIn=dates[0]
+        const DateTimeOut=dates[1]
+        const search={
+            city,
+            DateTimeIn,
+            DateTimeOut,
+            peopleCount,
+            childrenCount,
+            numberCount
+        }
+        setRedirectData(search);
+        setRedirect(true);
     };
     const disabledDate = (current) => {
         // Can not select days before today and today
@@ -35,8 +49,8 @@ const Main = ()=>{
         return(
             <Redirect
                 to={{
-                    pathname: "/search",
-                    state: { peopleCount, numberCount, childrenCount }
+                    pathname: "/Hotels",
+                    state: redirectData
                 }}
             />
         )
@@ -53,7 +67,8 @@ const Main = ()=>{
                 <Input onChange={(e)=>setCity(e)} prefix={<img src={imgCity}/>} placeholder="Город" />
             </Form.Item>
             <Form.Item>
-                <RangePicker format='DD/MM/YY' disabledDate={disabledDate} locale={locale} style={{height:'34px'}}/>
+                <RangePicker format='DD/MM/YY' disabledDate={disabledDate} locale={locale} style={{height:'34px'}}
+                onCalendarChange={(value, dateString) => setDates(dateString)} onChange={(value, dateString) => setValue(dateString)}/>
             </Form.Item>
             <Form.Item>
                 <Button style={{height:'34px',width:'270px'}} onClick={()=>isVisible?setVisible(false):setVisible(true)}>

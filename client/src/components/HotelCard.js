@@ -1,25 +1,64 @@
-import { useParams } from "react-router-dom"
-import { Carousel } from 'antd';
+import { Redirect, useParams } from "react-router-dom"
+import { Carousel, Typography, Rate, Card, Button} from 'antd';
 import { useEffect, useState } from "react";
 
-const HotelCard=()=>{
+const {Title}=Typography
+
+const HotelCard=(props)=>{
     const {id}=useParams();
-    const [arr,setArr]=useState([]) 
-    useEffect(()=>{
-        return setArr(['https://cf.bstatic.com/images/hotel/max1024x768/259/259279353.jpg',
-        'https://cf.bstatic.com/images/hotel/max1024x768/227/227923022.jpg',
-        'https://cf.bstatic.com/images/hotel/max1024x768/269/269916456.jpg',
-        'https://cf.bstatic.com/images/hotel/max1024x768/168/168980549.jpg',
-        'https://cf.bstatic.com/images/hotel/max1024x768/115/115068175.jpg'])
+    const [arr,setArr]=useState([])
+    const [hotel,setHotel]=useState({});
+    const [rooms,setRooms]=useState([]); 
+    const [redirect,setRedirect]=useState(false)
+    useEffect(async()=>{
+        const hotel = await fetch(`/Home/Hotels/${id}`);
+        const rooms = await fetch(`/Home/Rooms/${id}`);
+        setHotel(hotel.body);
+        setRooms(rooms.body);
     },[])
+    const addOrder = async(roomId)=>{
+        const body= props.location.state;
+        const response = await (`/Home/AddOrder/${id}/${roomId}`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        if(response.status=='200'){
+            console.log(response.body)
+            setRedirect(true)
+        }else{
+            console.log('bad request')
+        }
+    }
+    if(redirect){
+        return <Redirect to='/'/>
+    }
     return(
-        <Carousel autoplay style={{width:600,height:340,backgroundColor:'#'}}>
-            {
-                arr.map(url=>{
-                    return <img className='carousel' src={url}/>
-                })
-            }
-        </Carousel>
+        <div>
+            <Title level={2}>{hotel.name}</Title>
+            <Rate disabled defaultValue={hotel.rating} style={{margin:'10px 0'}}/>
+            <Carousel autoplay style={{width:600,height:340,margin:'10px auto'}}>
+                {
+                    arr.map(url=>{
+                        return <img className='carousel' src='https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg'/>
+                    })
+                }
+            </Carousel>
+            {rooms.map(a=>{
+                return(
+                    <div className="site-card-border-less-wrapper">
+                        <Card title="Card title" key={a.id} style={{ width: 300 }}>
+                        <p>Класс: {a.numClass}</p>
+                        <p>Вместимость: {a.capacity}</p>
+                        <p>Стоимость: {a.price} руб.</p>
+                        <Button type='primary' onclick={addOrder(a.id)}>Забронировать</Button>
+                        </Card>
+                    </div>
+                )
+            })}
+        </div>
     )
 }
 

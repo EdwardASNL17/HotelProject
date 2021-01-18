@@ -17,7 +17,7 @@ const SignUp = () => {
   const [birthday,setBirthday]=useState('');
   const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
-
+  const [redirect,setRedirect]=useState(false)
   const onFinish = async() => {
     const user={
       Name:name,
@@ -36,7 +36,7 @@ const SignUp = () => {
       body: JSON.stringify(user)
     })
     if(response.status=='200'){
-      return <Redirect to='/search'/>
+      setRedirect(true)
     }
     else{
       console.log('bad request')
@@ -46,7 +46,11 @@ const SignUp = () => {
   const onFinishFailed = errorInfo => {
     console.log(errorInfo)
   };
-
+  if(redirect){
+    return(
+      <Redirect to='/'/>
+    )
+  }
   return (
     <Form
       {...layout}

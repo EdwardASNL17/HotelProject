@@ -13,6 +13,7 @@ const tailLayout = {
 const SignIn = () => {
   const [login,setLogin]=useState('');
   const [password,setPassword]=useState('');
+  const [redirect,setRedirect]=useState(false)
 
   const onFinish = async() => {
     const user={
@@ -27,7 +28,7 @@ const SignIn = () => {
       body: JSON.stringify(user)
     })
     if(response.status=='200'){
-      return <Redirect to='/search'/>
+      setRedirect(true)
     }else{
       console.log('bad request')
     }
@@ -37,6 +38,11 @@ const SignIn = () => {
     console.log('Failed:', errorInfo);
   };
 
+  if(redirect){
+    return(
+      <Redirect to='/'/>
+    )
+  }
   return (
     <Form
       {...layout}
