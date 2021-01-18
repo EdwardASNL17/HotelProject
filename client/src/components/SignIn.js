@@ -18,7 +18,7 @@ const SignIn = () => {
   const onFinish = async() => {
     const user={
       "UserName":login,
-      "password":password
+      "Password":password
     }
     const response = await fetch('/Account/Login',{
       method:'POST',
