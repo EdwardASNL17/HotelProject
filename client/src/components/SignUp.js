@@ -27,13 +27,14 @@ const SignUp = () => {
       Password:password,
       ConfirmPassword:password
     }
-    await fetch('/Account/Register',{
+    const response= await fetch('/Account/Register',{
       method:'POST',
       headers:{
         'Content-Type':'application/json'
       },
       body: JSON.stringify(user)
     })
+    console.log(response)
   };
 
   const onFinishFailed = errorInfo => {
@@ -55,34 +56,34 @@ const SignUp = () => {
         name="name"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input onChange={e=>setName(e)}/>
+        <Input onChange={(e)=>setName(e.target.value)}/>
       </Form.Item>
       <Form.Item
         label="Фамилия"
         name="surname"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input onChange={e=>setSurName(e)}/>
+        <Input onChange={(e)=>setSurName(e.target.value)}/>
       </Form.Item>
       <Form.Item label="Дата рождения">
-        <DatePicker format='DD/MM/YYYY' onChange={e=>setBirthday(e)}/>
+        <DatePicker format='DD/MM/YYYY' onChange={(date, dateString)=>setBirthday(dateString)}/>
       </Form.Item>
       <Form.Item name="email" label="Email" rules={[{ type: 'email' , required:true}]}>
-        <Input onChange={e=>setEmail(e)}/>
+        <Input onChange={(e)=>setEmail(e.target.value)}/>
       </Form.Item>
       <Form.Item
         label="Логин"
         name="username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input onChange={e=>setLogin(e)}/>
+        <Input onChange={(e)=>setLogin(e.target.value)}/>
       </Form.Item>
       <Form.Item
         label="Пароль"
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
-        <Input.Password onChange={e=>setPassword(e)}/>
+        <Input.Password onChange={(e)=>setPassword(e.target.value)}/>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
