@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FindHotel.ViewModels;
+using System.IO;
+using System.Text.Json;
 
 namespace FindHotel.Controllers
 {
@@ -88,19 +90,19 @@ namespace FindHotel.Controllers
             //return Json(hotel);
 
         }
-        public IActionResult AddHotel()
-        {
-            return View();
-        }
 
         [HttpPost]
-        public IActionResult AddHotel(Hotel hotel)
+        public JsonResult AddHotel()
         {
-            db.Hotels.Add(hotel);
-            // сохраняем в бд все изменения
-            db.SaveChanges();
-            return Json(hotel);
-
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var body = reader.ReadToEndAsync();
+                Hotel hotel = JsonSerializer.Deserialize<Hotel>(body.Result);
+                db.Hotels.Add(hotel);
+                // сохраняем в бд все изменения
+                db.SaveChanges();
+                return Json(hotel);
+            }
         }
 
         public IActionResult AddRoom()
@@ -115,7 +117,7 @@ namespace FindHotel.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddRoom(Room room)
+        public JsonResult AddRoom(Room room)
         {
             db.Rooms.Add(room);
             // сохраняем в бд все изменения

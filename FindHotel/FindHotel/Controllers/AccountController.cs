@@ -79,42 +79,44 @@ namespace FindHotel.Controllers
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<JsonResult> Login()
         {
             using (var reader = new StreamReader(Request.Body))
             {
                 var body = reader.ReadToEndAsync();
 
-                LoginViewModel jsonmodel = JsonSerializer.Deserialize<LoginViewModel>(body.Result);
+                LoginViewModel model = JsonSerializer.Deserialize<LoginViewModel>(body.Result);
                 //if (ModelState.IsValid)
                 //{
-                    var result =
-                        await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Cabinet", "Account");
-                        //return Json(model.UserName);
-                        // проверяем, принадлежит ли URL приложению
-                        /*  if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                        {
-                          return Redirect(model.ReturnUrl);
-                        }
-                        else
-                        {
-                          return RedirectToAction("Cabinet", "Account");
-                        }
-                        */
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
+                if (result.Succeeded)
+                {
+                    var logUser = db.Users.FirstOrDefault(x => x.UserName.Equals(model.UserName));
+                    return Json(logUser.Id);
+
+                }
+                //return Json(logUser);
+                //return Json(model.UserName);
+                // проверяем, принадлежит ли URL приложению
+                /*  if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                {
+                  return Redirect(model.ReturnUrl);
                 }
                 else
-                    {   /*
+                {
+                  return RedirectToAction("Cabinet", "Account");
+                }
+                */
+                else
+                {   /*
                         foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
                         */
-                        return Json("Error");
-                    }
+                    //return "Error";
+                    return Json("Error");
+                }
                 //}
                 //return View(model);
             }
