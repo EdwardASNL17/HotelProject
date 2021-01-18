@@ -1,4 +1,5 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, DatePicker } from 'antd';
+import {useState} from 'react'
 
 const layout = {
   labelCol: { span: 9 },
@@ -9,12 +10,34 @@ const tailLayout = {
 };
 
 const SignUp = () => {
-  const onFinish = values => {
-    console.log('Success:', values);
+  const [name,setName]=useState('');
+  const [surName,setSurName]=useState('');
+  const [login,setLogin]=useState('');
+  const [birthday,setBirthday]=useState('');
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+
+  const onFinish = async() => {
+    const user={
+      Name:name,
+      Surname:surName,
+      Login:login,
+      Birthday:birthday,
+      Email:email,
+      Password:password,
+      ConfirmPassword:password
+    }
+    await fetch('/Account/Register',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(user)
+    })
   };
 
   const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+    
   };
 
   return (
@@ -26,22 +49,40 @@ const SignUp = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
+      
+      <Form.Item
+        label="Имя"
+        name="name"
+        rules={[{ required: true, message: 'Please input your username!' }]}
+      >
+        <Input onChange={e=>setName(e)}/>
+      </Form.Item>
+      <Form.Item
+        label="Фамилия"
+        name="surname"
+        rules={[{ required: true, message: 'Please input your username!' }]}
+      >
+        <Input onChange={e=>setSurName(e)}/>
+      </Form.Item>
+      <Form.Item label="Дата рождения">
+        <DatePicker format='DD/MM/YYYY' onChange={e=>setBirthday(e)}/>
+      </Form.Item>
       <Form.Item name="email" label="Email" rules={[{ type: 'email' , required:true}]}>
-        <Input />
+        <Input onChange={e=>setEmail(e)}/>
       </Form.Item>
       <Form.Item
         label="Логин"
         name="username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input />
+        <Input onChange={e=>setLogin(e)}/>
       </Form.Item>
       <Form.Item
         label="Пароль"
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
-        <Input.Password />
+        <Input.Password onChange={e=>setPassword(e)}/>
       </Form.Item>
 
       <Form.Item {...tailLayout}>

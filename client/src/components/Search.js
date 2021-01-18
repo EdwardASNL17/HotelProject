@@ -9,6 +9,9 @@ const Search =(props)=>{
   useEffect(()=>{
     /*
     const obj = props.location.state
+    {
+      { startDay, endDay, peopleCount, numberCount, childrenCount }
+    }
     */
     return setArr([{id:1,img:'https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg',name:'Хаятт Ридженси Сочи',stars:4,cost:36000,days:4},
                 {id:2,img:'https://s01.cdn-pegast.net/get/25/75/1a/8473b85ff7c362403ba2965bcc8c1f1ca60a6ef277262a49d77d588d43/5c811e318a525.jpg',name:'Хаятт Ридженси Сочи',stars:4,cost:36000,days:4},

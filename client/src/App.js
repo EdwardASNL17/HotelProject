@@ -26,7 +26,7 @@ function App() {
                     <Link to='/signin'>Войти</Link>
                   </Menu.Item>
                   <Menu.Item key="Submenu2">
-                    <Link to='/signup'>Регистрация</Link>
+                    <Link to='/Account/Register'>Регистрация</Link>
                   </Menu.Item>
                 </SubMenu>
             </Menu>
@@ -37,7 +37,7 @@ function App() {
             </Breadcrumb>
             <Switch>
               <Route exact path='/signin' component={SignIn}/>
-              <Route exact path='/signup' component={SignUp}/>
+              <Route exact path='/Account/Register' component={SignUp}/>
               <Route exact path='/search' component={Search}/>
               <Route exact path='/hotel/:id' component={HotelCard}/>
               <Route path='/' component={Main}/>
