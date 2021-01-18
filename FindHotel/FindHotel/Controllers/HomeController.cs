@@ -80,9 +80,8 @@ namespace FindHotel.Controllers
             return View(db.Hotels.ToList());
         }
         [HttpGet]
-        public IActionResult Hotels(int? id)
+        public JsonResult Hotels(int? id)
         {
-            if (id == null) return RedirectToAction("Index");
             /*foreach(var hot in db.Hotels)
             {
                 if(hot.Id == id)
@@ -97,7 +96,7 @@ namespace FindHotel.Controllers
             */
             
             var hotel = db.Hotels.FirstOrDefault(x => x.HotelId.Equals(id));
-            var room = db.Rooms.FirstOrDefault(x => x.HotelId.Equals(hotel.HotelId));
+
             if (hotel != null)
             {
                 ViewBag.HotelId = hotel.HotelId;
@@ -108,13 +107,47 @@ namespace FindHotel.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                
             }
-            return View(db.Rooms.ToList());
+            return Json(hotel);
             //return Json(hotel);
 
         }
+        [HttpGet]
+        public JsonResult Rooms(int? id)
+        {
+            /*foreach(var hot in db.Hotels)
+            {
+                if(hot.Id == id)
+                {
+                    ViewBag.HotelName = hot.Id;
+                    ViewBag.HotelRating = hot.Name;
+                    ViewBag.HotelServiceLevel = hot.Rating;
+                    ViewBag.HotelNumRooms = hot.ServiceLevel;
+                    break;
+                }
+            }
+            */
 
+            Room[] count = new Room[100];
+            int i = 0;
+            foreach (var room in db.Rooms)
+            {
+                if (room.HotelId == id)
+                {
+                    count[i] = room;
+                    i++;
+                }
+            }
+            Room[] rooms = new Room[i];
+            for (var j = 0; j < i; j++)
+            {
+                rooms[j] = count[j];
+            }
+            return Json(rooms);
+            //return Json(hotel);
+
+        }
         [HttpPost]
         public JsonResult AddHotel()
         {
@@ -173,14 +206,18 @@ namespace FindHotel.Controllers
          }
          */
         [HttpPost]
-        public JsonResult AddOrder()
+        public JsonResult AddOrder(int? id, int? sid)
         {
             using (var reader = new StreamReader(Request.Body))
             {
                 var body = reader.ReadToEndAsync();
                 Order order = JsonSerializer.Deserialize<Order>(body.Result);
                 var userHotel = db.Users.FirstOrDefault(x => x.NormalizedUserName.Equals(User.Identity.Name));
+                //var idHotel = db.Hotels.FirstOrDefault(x => x.HotelId.Equals(id));
+                //var idRoom = db.Rooms.FirstOrDefault(x => x.RoomId.Equals(sid));
                 order.UserId = userHotel.Id;
+                //order.HotelId = idHotel.HotelId;
+                //order.RoomId = idRoom.RoomId;
                 db.Orders.Add(order);
                 // сохраняем в бд все изменения
                 db.SaveChanges();
