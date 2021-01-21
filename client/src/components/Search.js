@@ -34,7 +34,8 @@ const Search =(props)=>{
     return <h2>Loading...</h2>
   }
   return(
-    <div style={{margin:100}}>
+    <Button onClick={refetch}>get data</Button>
+    /*<div style={{margin:100}}>
       {arr.map(a=>{
         return(
           <Card
@@ -45,11 +46,16 @@ const Search =(props)=>{
           >
             <Meta title={a.name}/>
             <Rate disabled defaultValue={a.rating} style={{margin:'10px 0'}}/>
+<<<<<<< HEAD
             <Link to={`/Home/Hotels/${a.hotelId}`}><Button type='primary' style={{width:'190px'}}>Подробнее</Button></Link>
         </Card>
+=======
+            <Button type='primary' style={{width:'190px'}} onClick={onclickButton(a.id)}>Подробнее</Button>
+          </Card>
+>>>>>>> 62dcf9496a4c0fc5064c336d5620a54446654179
         )
       })}
-    </div>
+    </div>*/
   );
 }
 

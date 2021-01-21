@@ -91,6 +91,7 @@ namespace FindHotel.Controllers
                 if (result.Succeeded)
                 {
                     var logUser = db.Users.FirstOrDefault(x => x.UserName.Equals(model.UserName));
+                    await _signInManager.SignInAsync(logUser, false);
                     return Json(logUser.Id);
 
                 }

@@ -7,7 +7,7 @@ import {useCookies} from "react-cookie";
 const {Title}=Typography
 const {RangePicker}=DatePicker
 
-const HotelCard=(props)=>{
+const HotelCard=()=>{
     const {id}=useParams();
     const [arr,setArr]=useState(['https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg','https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg','https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg','https://www.multitour.ru/files/imgs/1bf36c65ecfe4dc44b2ae26353c06e13e15732ba.jpeg'])
     const [hotel,setHotel]=useState({});

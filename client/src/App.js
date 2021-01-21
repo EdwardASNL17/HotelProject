@@ -24,7 +24,7 @@ function App() {
                 </Menu.Item>
                 <SubMenu style={{marginLeft: '1020px'}} key="2" icon={<img src={profilePhoto}/>} title="">
                   <Menu.Item key="Submenu1">
-                    <Link to='/signin'>Войти</Link>
+                    <Link to='/Account/Login'>Войти</Link>
                   </Menu.Item>
                   <Menu.Item key="Submenu2">
                     <Link to='/signup'>Регистрация</Link>
