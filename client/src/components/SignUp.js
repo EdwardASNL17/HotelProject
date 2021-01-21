@@ -1,6 +1,8 @@
 import { Form, Input, Button, DatePicker } from 'antd';
 import {useState} from 'react'
 import { Redirect } from 'react-router-dom';
+import {useCookies} from 'react-cookie'
+
 
 const layout = {
   labelCol: { span: 9 },
@@ -18,6 +20,7 @@ const SignUp = () => {
   const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
   const [redirect,setRedirect]=useState(false)
+  const [cookie,setCookie]=useCookies(['id'])
   const onFinish = async() => {
     const user={
       Name:name,
@@ -34,13 +37,9 @@ const SignUp = () => {
         'Content-Type':'application/json'
       },
       body: JSON.stringify(user)
-    })
-    if(response.status=='200'){
+    }).then(res=>res.json())
+      setCookie('id',response)
       setRedirect(true)
-    }
-    else{
-      console.log('bad request')
-    }
   };
 
   const onFinishFailed = errorInfo => {

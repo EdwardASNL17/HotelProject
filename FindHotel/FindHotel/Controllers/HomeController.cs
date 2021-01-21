@@ -28,6 +28,7 @@ namespace FindHotel.Controllers
         [HttpPost]
         public  JsonResult SearchHotel()
         {
+            
             using (var reader = new StreamReader(Request.Body))
             {
                 var body = reader.ReadToEndAsync();
@@ -95,9 +96,9 @@ namespace FindHotel.Controllers
             }
             */
             
-            var hotel = db.Hotels.FirstOrDefault(x => x.HotelId.Equals(id));
+            Hotel hotel = db.Hotels.FirstOrDefault(x => x.HotelId.Equals(id));
 
-            if (hotel != null)
+            /*if (hotel != null)
             {
                 ViewBag.HotelId = hotel.HotelId;
                 ViewBag.HotelName = hotel.Name;
@@ -108,9 +109,8 @@ namespace FindHotel.Controllers
             else
             {
                 
-            }
+            }*/
             return Json(hotel);
-            //return Json(hotel);
 
         }
         [HttpGet]
@@ -206,7 +206,7 @@ namespace FindHotel.Controllers
          }
          */
         [HttpPost]
-        public JsonResult AddOrder(int? id, int? sid)
+        public JsonResult AddOrder()
         {
             using (var reader = new StreamReader(Request.Body))
             {
@@ -215,7 +215,7 @@ namespace FindHotel.Controllers
                 var userHotel = db.Users.FirstOrDefault(x => x.NormalizedUserName.Equals(User.Identity.Name));
                 //var idHotel = db.Hotels.FirstOrDefault(x => x.HotelId.Equals(id));
                 //var idRoom = db.Rooms.FirstOrDefault(x => x.RoomId.Equals(sid));
-                order.UserId = userHotel.Id;
+                //order.UserId = userHotel.Id;
                 //order.HotelId = idHotel.HotelId;
                 //order.RoomId = idRoom.RoomId;
                 db.Orders.Add(order);
@@ -230,6 +230,31 @@ namespace FindHotel.Controllers
             db.SaveChanges();
             return Json(order);
            */
+        }
+        [HttpPost]
+
+        public JsonResult Orders(){
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var body = reader.ReadToEndAsync();
+                string UserId = JsonSerializer.Deserialize<string>(body.Result);
+                Order[] count = new Order[100];
+                int i = 0;
+                foreach (var order in db.Orders)
+                {
+                    if (order.UserId == UserId)
+                    {
+                        count[i] = order;
+                        i++;
+                    }
+                }
+                Order[] orders = new Order[i];
+                for (var j = 0; j < i; j++)
+                {
+                    orders[j] = count[j];
+                }
+                return Json(orders);
+            }
         }
     }
 }

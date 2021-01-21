@@ -7,6 +7,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import Search from './components/Search';
 import HotelCard from './components/HotelCard'
+import Orders from './components/Orders';
 
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -26,7 +27,7 @@ function App() {
                     <Link to='/signin'>Войти</Link>
                   </Menu.Item>
                   <Menu.Item key="Submenu2">
-                    <Link to='/Account/Register'>Регистрация</Link>
+                    <Link to='/signup'>Регистрация</Link>
                   </Menu.Item>
                 </SubMenu>
             </Menu>
@@ -37,9 +38,10 @@ function App() {
             </Breadcrumb>
             <Switch>
               <Route exact path='/signin' component={SignIn}/>
-              <Route exact path='/Account/Register' component={SignUp}/>
-              <Route exact path='/Hotels' component={Search}/>
-              <Route exact path='/hotel/:id' component={HotelCard}/>
+              <Route exact path='/signup' component={SignUp}/>
+              <Route exact path='/Home/SearchHotel/:city' component={Search}/>
+              <Route exact path='/Home/Hotels/:id' component={HotelCard}/>
+              <Route exact path='/Home/Orders' component={Orders}/>
               <Route path='/' component={Main}/>
             </Switch>
           </Content>
